@@ -21,18 +21,23 @@ const EdirPrompt = () => {
         tag: data.tag,
       });
     };
-    fetchPost();
+    if (promptId) {
+      fetchPost();
+    }
   }, [promptId]);
+
   //   update function
   const updatePrompt = async (e) => {
+    if (!promptId) {
+      alert("Post ID not found!");
+    }
     e.preventDefault();
     setSubmitting(true);
     try {
-      const response = await fetch("api/prompt/new", {
-        method: "POST",
+      const response = await fetch(`api/prompt/${promptId}`, {
+        method: "PATCH",
         body: JSON.stringify({
           prompt: post.prompt,
-          userId: session?.user.id,
           tag: post.tag,
         }),
       });
